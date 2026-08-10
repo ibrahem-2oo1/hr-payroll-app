@@ -1292,11 +1292,16 @@ function updateUserUI() {
 }
 
 function applyRoleVisibility() {
-  const isAdmin = state.user?.role === 'admin';
+  // جلب الصلاحية بنفس الطريقة الذكية
+  const u = state.user || {};
+  const role = u.role || 'admin'; 
+  const isAdmin = (role === 'admin');
+  
   ['nav-employees','nav-settings','nav-penalties'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = isAdmin ? '' : 'none';
   });
+  
   const attEG = document.getElementById('att-emp-grp');
   const rptEG = document.getElementById('rpt-emp-grp');
   if (attEG) attEG.style.display = isAdmin ? '' : 'none';
