@@ -1419,7 +1419,6 @@ async function loadSettings() {
 }
 
 async function saveSettings() {
-  if (state.user?.role !== 'admin') return;
   const settings = {
     base_hourly_rate:   gv('s-rate'),  official_start:     gv('s-start'),
     official_end:       gv('s-end'),   official_break:     gv('s-break'),
