@@ -1713,7 +1713,7 @@ const Engine = {
     const otModFix  = this.hhmm(s.ot_modifier_fixed || '00:00');
     const grace     = this.hhmm(s.grace_period       || '00:15');
     const allowed   = parseInt(s.allowed_late_count   || '3', 10);
-    const offDur    = offEnd - offStart - offBreak;
+    const rawOffDur = offEnd - offStart; const offDur    = rawOffDur - ((rawOffDur / 60) * offBreak);
 
     const out = { ...rec, officialMin:0, otMin:0, effOTMin:0, lateMin:0, deductMin:0, netMin:0, isLate:false };
 
@@ -1736,13 +1736,13 @@ const Engine = {
         out.deductMin = this.lateRule(s[rk], out.lateMin, offDur, parseFloat(s[mk]||'1'));
       }
 
-      const workMin = (cout - cin) - offBreak;
+      const totalRawMin = cout - cin; const workMin = totalRawMin - ((totalRawMin / 60) * offBreak);
       if (workMin <= offDur) {
         out.officialMin = Math.max(0, workMin);
       } else {
         out.officialMin = offDur;
         let rawOT = otMethod==='over_8_hours' ? workMin-480 : workMin-offDur;
-        out.otMin = Math.max(0, rawOT - otBreak);
+        out.otMin = Math.max(0, rawOT);
       }
 
       if (otModType==='multiplier')         out.effOTMin = out.otMin * otModVal;
