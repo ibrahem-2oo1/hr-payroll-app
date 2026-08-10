@@ -1276,12 +1276,19 @@ function doLogout() {
 function updateUserUI() {
   const u = state.user;
   if (!u) return;
-  const ini = u.employee_name.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
+  // جلب الاسم والصلاحية بشكل ذكي
+  const name = u.employee_name || u.username || 'System Admin';
+  const role = u.role || 'admin';
+  
+  // استخراج أول حرفين للصورة الرمزية
+  const ini = name.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
   document.getElementById('sb-avatar').textContent = ini;
-  document.getElementById('sb-uname').textContent  = u.employee_name;
+  document.getElementById('sb-uname').textContent  = name;
+  
+  // تحديث الصلاحية واللون
   const rb = document.getElementById('sb-role');
-  rb.textContent = u.role.toUpperCase();
-  rb.className   = 'u-badge' + (u.role === 'admin' ? ' ab' : '');
+  rb.textContent = role.toUpperCase();
+  rb.className   = 'u-badge' + (role === 'admin' ? ' ab' : '');
 }
 
 function applyRoleVisibility() {
