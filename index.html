@@ -1230,7 +1230,7 @@ async function doLogin() {
     setLoading(false);
 
     if (result.success) {
-      state.user = result.user;
+      state.user = result.user || result.data;
       onLoginSuccess();
     } else {
       setLoginErr(result.error || 'Invalid credentials. Please try again.');
