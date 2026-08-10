@@ -1318,7 +1318,9 @@ function navigate(sec) {
   const [t, b] = pageTitles[sec] || ['HR Nexus', 'HR Nexus'];
   document.getElementById('pg-title').textContent   = t;
   document.getElementById('breadcrumb').textContent = b;
-  if (sec === 'employees')  loadEmployees();
+  if (sec === 'employees') {
+  if (state.employees.length === 0) loadEmployees();
+}
   if (sec === 'attendance') loadRecentAttendance();
   if (sec === 'penalties')  loadRecentPenalties();
   if (window.innerWidth < 768) document.getElementById('sidebar').classList.remove('mobile-open');
